@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+<h1>Please log in.</h1>
+<form action="" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <input type="submit" value="Sign in.">
+</form>
+<h2>If you cannot log in, create a new account.</h2>
+<form action="/register" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <input type="submit" value="Register.">
+</form>
+{% endblock %}

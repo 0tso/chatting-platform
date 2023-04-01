@@ -11,15 +11,14 @@ connection_pool = psycopg2.pool.ThreadedConnectionPool(minconn=getenv("MIN_CONN"
                                                        host=getenv("HOST"))
 
 # Recommended usage:
-# with db.Connection() as conn, conn.cursor() as cur:
+# with db.connection() as cursor:
 class Connection:
     def __enter__(self):
         self.conn = connection_pool.getconn()
-        return self
+        self.cur = self.conn.cursor()
+        return self.cur
     
     def __exit__(self, exception_type, exception_value, traceback):
         self.conn.commit()
+        self.cur.close()
         connection_pool.putconn(self.conn)
-
-    def cursor(self):
-        return self.conn.cursor()

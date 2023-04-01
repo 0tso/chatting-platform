@@ -39,7 +39,7 @@ python
 '18fd24bf6a2ad4dac04a33963db1c42f'
 ```
 
-### Running the application
+## Running the application
 
 To run the application on a development server, execute the following command inside the virtual environment:
 ```sh
