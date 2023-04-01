@@ -31,6 +31,13 @@ pip install -r requirements.txt
 ```sh
 sudo -u postgres psql DB_NAME < schema.sql
 ```
+6. Generate a secret key and add that to the environment variables under the name of `SECRET_KEY`. Example method of generating a key:
+```sh
+python
+>>> import secrets
+>>> secrets.token_hex(16)
+'18fd24bf6a2ad4dac04a33963db1c42f'
+```
 
 ### Running the application
 
