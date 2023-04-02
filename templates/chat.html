@@ -8,4 +8,14 @@
     {% endfor %}
 </p>
 
+<form id="chatbox">
+    <input type="text" autofocus />
+</form>
+
+<div id="messages">
+
+</div>
+
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
+
 {% endblock %}
