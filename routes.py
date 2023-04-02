@@ -19,7 +19,7 @@ def requires_login(route_func):
 @app.route("/")
 @requires_login
 def index():
-    return render_template("index.html", username=user.username())
+    return render_template("index.html", username=user.username(), chats=chat.get_chats())
 
 @app.route("/login", methods=["GET"])
 def login():

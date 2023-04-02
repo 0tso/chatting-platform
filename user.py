@@ -12,6 +12,7 @@ def try_login(username, password):
         if user:
             if check_password_hash(user[1], password):
                 session["username"] = username
+                session["user_id"] = user[0]
                 return True
 
         return False
@@ -22,8 +23,9 @@ def try_register(username, password):
         if cur.fetchone():
             return False
         else:
-            cur.execute("INSERT INTO Users (name, password) VALUES (%s, %s)", (username, generate_password_hash(password)))
+            cur.execute("INSERT INTO Users (name, password) VALUES (%s, %s) RETURNING id", (username, generate_password_hash(password)))
             session["username"] = username
+            session["user_id"] = cur.fetchone()[0]
             return True
 
 def logout():
@@ -32,3 +34,6 @@ def logout():
 
 def username():
     return session.get("username", None)
+
+def user_id():
+    return session.get("user_id", None)

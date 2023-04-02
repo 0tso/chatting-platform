@@ -14,7 +14,10 @@
 </form>
 
 <h3>Active chats</h3>
-{% endblock %}
+{% for chat in chats %}
+<a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+{% endfor %}
 
+{% endblock %}
 
 {% endblock %}
