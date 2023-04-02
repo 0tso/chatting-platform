@@ -18,7 +18,7 @@
 
 1. Clone the repository
 ```sh
-git clone https://github.com/0tso/chatting-platform.git
+git clone git@github.com:0tso/chatting-platform.git
 ```
 2. Create a virtual environment in the cloned repository:
 ```sh
