@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+
+<p style="color:gray">Chat users:
+    {% for name in usernames %}
+    <span style="color:coral">{{ name }}</span>{{ ", " if not loop.last else "" }}
+    {% endfor %}
+</p>
+
+{% endblock %}

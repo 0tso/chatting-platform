@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Main page{% endblock %}
 {% block body %}
-<h1>Welcome to the main page.</h1>
+
+{% block content %}
+
 <p style="color:gray">Logged in as <span style="color:coral">{{ username }}</span>. <a href="/logout">Log out.</a></p>
+
+<form action="/find_user" method="GET">
+    <p>Search for users to start a chat with.</p>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <input type="submit" value="Search">
+</form>
+
+<h3>Active chats</h3>
+{% endblock %}
+
+
 {% endblock %}

@@ -17,8 +17,6 @@ def try_login(username, password):
         return False
 
 def try_register(username, password):
-    if len(username) < 3 or len(username) > 20:
-        return False
     with db.Connection() as cur:
         cur.execute("SELECT id FROM Users WHERE name=%s", (username,))
         if cur.fetchone():
@@ -29,8 +27,8 @@ def try_register(username, password):
             return True
 
 def logout():
-    del session["username"]
+    if "username" in session:
+        del session["username"]
 
 def username():
     return session.get("username", None)
-
