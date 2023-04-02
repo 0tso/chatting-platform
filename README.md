@@ -5,14 +5,14 @@
 ## Core functionality and implementation status
 - [x] Registering and logging into the service with a username & password combination
 - [x] Finding and opening a chat with other users by searching their usernames
-- [] Viewing a list of the users you've searched and chatted with previously
-- [] Real-time chat conversations with:
-	- [] A saved chat history
-	- [] The possibility to delete and edit previous messages
-	- [] Dynamically changing user status markers such as "online", "writing a message", "offline"
+- [ ] Viewing a list of the users you've searched and chatted with previously
+- [ ] Real-time chat conversations with:
+	- [ ] A saved chat history
+	- [ ] The possibility to delete and edit previous messages
+	- [ ] Dynamically changing user status markers such as "online", "writing a message", "offline"
 
 ### Potential future functionality
-- [] Group chats with multiple people and a custom name
+- [ ] Group chats with multiple people and a custom name
 
 ## Installation
 
