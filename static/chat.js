@@ -1,5 +1,4 @@
 const messages = document.getElementById("messages");
-const socket = new WebSocket("wss://" + location.host + window.location.pathname);
 
 function create_message_element(message)
 {
@@ -26,8 +25,7 @@ function append_data(data)
     }
 }
 
-socket.onmessage = (event) =>
-{
-    const data = JSON.parse(event.data);
-    append_data(data);
-};
+const socket = io();
+socket.on("connection", (data) => {
+    console.log(data);
+})
