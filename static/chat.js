@@ -57,3 +57,8 @@ chatbox.onkeydown = (e) =>
         }
     }
 };
+
+window.onbeforeunload = () =>
+{
+    socket.disconnect(true);
+};
