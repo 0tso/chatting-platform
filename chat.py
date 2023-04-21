@@ -59,3 +59,19 @@ def get_present(chat_id):
     with db.Connection() as cur:
         cur.execute("SELECT user_id FROM ChatMembers WHERE chat_id=%s AND present=TRUE;", (chat_id,))
         return [x[0] for x in cur.fetchall()]
+
+def get_messages(chat_id, amount, pivot_message_id=-1):
+    with db.Connection() as cur:
+        cur.execute("""
+            SELECT
+                M.id, TO_CHAR(M.time, 'YYYY-MM-DD HH24:MI:SS'), U.name, M.content
+            FROM
+                Messages M LEFT JOIN Users U
+            ON
+                M.user_id=U.id
+            WHERE
+                M.chat_id = %s AND M.id > %s
+            ORDER BY
+                M.id
+            LIMIT %s""", (chat_id, pivot_message_id, amount))
+        return cur.fetchall()

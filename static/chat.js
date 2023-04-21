@@ -2,8 +2,14 @@ const messages = document.getElementById("messages");
 
 function create_message_element(message)
 {
+    const id = message[0];
+    const time = message[1];
+    const username = message[2];
+    const content = message[3];
+
     const element = document.createElement("p");
-    const msg = document.createTextNode(message.user + " - " + message.time + ": " + message.content);
+    const msg = document.createTextNode(username + " - " + time + ": " + content);
+    msg.id = "msg_" + id;
     element.appendChild(msg);
     return element;
 }
@@ -26,6 +32,7 @@ function append_data(data)
 }
 
 const socket = io();
+
 socket.on("messages", (data) => {
     append_data(data);
 });
