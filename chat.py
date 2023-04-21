@@ -72,6 +72,17 @@ def get_messages(chat_id, amount, pivot_message_id=-1):
             WHERE
                 M.chat_id = %s AND M.id > %s
             ORDER BY
-                M.id
+                M.id DESC
             LIMIT %s""", (chat_id, pivot_message_id, amount))
         return cur.fetchall()
+
+def add_message(chat_id, user_id, content):
+    with db.Connection() as cur:
+        cur.execute("""
+            INSERT INTO
+                Messages (chat_id, user_id, time, content)
+            VALUES
+                (%s, %s, NOW(), %s)
+            RETURNING
+                id, TO_CHAR(time, 'YYYY-MM-DD HH24:MI:SS')""", (chat_id, user_id, content))
+        return cur.fetchone()

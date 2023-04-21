@@ -1,4 +1,5 @@
 const messages = document.getElementById("messages");
+const chatbox = document.getElementById("chatbox");
 
 function create_message_element(message)
 {
@@ -44,3 +45,15 @@ socket.on("status", (users) => {
         elem.style.color = user.online ? "green" : "gray";
     }
 });
+
+chatbox.onkeydown = (e) =>
+{
+    if(e.key === "Enter")
+    {
+        if(chatbox.value)
+        {
+            socket.emit("msg", chatbox.value);
+            chatbox.value = "";
+        }
+    }
+};
