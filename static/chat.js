@@ -26,6 +26,14 @@ function append_data(data)
 }
 
 const socket = io();
-socket.on("connection", (data) => {
-    console.log(data);
-})
+socket.on("messages", (data) => {
+    append_data(data);
+});
+
+socket.on("status", (users) => {
+    for(const user of users)
+    {
+        let elem = document.getElementById("u_" + user.id);
+        elem.style.color = user.online ? "green" : "gray";
+    }
+});

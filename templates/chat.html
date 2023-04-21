@@ -3,8 +3,8 @@
 {% block content %}
 
 <p style="color:gray">Chat users:
-    {% for name in usernames %}
-    <span style="color:coral">{{ name }}</span>{{ ", " if not loop.last else "" }}
+    {% for user in users %}
+    <span style={{ "color:gray" if not user[2] else "color:green" }} id={{ "u_" + user[1]|string }} >{{ user[0] }}</span>{{ ", " if not loop.last else "" }}
     {% endfor %}
 </p>
 

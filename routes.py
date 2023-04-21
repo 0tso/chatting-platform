@@ -1,7 +1,7 @@
 from functools import wraps
 from app import app
 import db
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, session
 import user
 import util
 import chat
@@ -61,4 +61,5 @@ def find_user():
 @app.route("/chat/<chat_id>")
 @requires_login
 def open_chat(chat_id):
-    return render_template("chat.html", username=user.username(), usernames=chat.get_chat_users(chat_id))
+    chat.join_chat(chat_id)
+    return render_template("chat.html", username=user.username(), users=chat.get_chat_users(chat_id))

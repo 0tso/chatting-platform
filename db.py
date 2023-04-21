@@ -3,8 +3,8 @@ from psycopg2 import pool
 from os import getenv
 
 # A connection pool to make database access more efficient
-connection_pool = psycopg2.pool.ThreadedConnectionPool(minconn=getenv("MIN_CONN"),
-                                                       maxconn=getenv("MAX_CONN"),
+connection_pool = psycopg2.pool.ThreadedConnectionPool(minconn=int(getenv("MIN_CONN")),
+                                                       maxconn=int(getenv("MAX_CONN")),
                                                        user=getenv("DB_USER"),
                                                        password=getenv("DB_PASSWORD"),
                                                        database=getenv("DATABASE"),
