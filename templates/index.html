@@ -15,7 +15,7 @@
 
 <h3>Active chats</h3>
 {% for chat in chats %}
-<a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+<a class="hide_chat" href="/chat/{{ chat[0] }}/hide">⨉</a> <a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
 {% endfor %}
 
 {% endblock %}
