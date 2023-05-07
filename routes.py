@@ -30,7 +30,7 @@ def try_login():
     username = request.form["username"]
     password = request.form["password"]
     if user.try_login(username, password):
-        return redirect("/")
+        return {"message": "Invalid login credentials."}, 401
     else:
         return redirect("/login")
 
@@ -51,6 +51,10 @@ def logout():
 @app.route("/find_user")
 @requires_login
 def find_user():
+
+    if request.args["csrf_token"] != session["csrf_token"]:
+        return {"message": "Invalid csrf_token"}, 403
+
     username = request.args["username"]
     if username != user.username() and util.try_find_user(username):
         chat_id = chat.create_chat_with_user(username)

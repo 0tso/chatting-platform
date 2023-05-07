@@ -1,3 +1,4 @@
+import secrets
 from flask import session
 import db
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -13,6 +14,7 @@ def try_login(username, password):
             if check_password_hash(user[1], password):
                 session["username"] = username
                 session["user_id"] = user[0]
+                session["csrf_token"] = secrets.token_hex(16)
                 return True
 
         return False
@@ -28,6 +30,7 @@ def try_register(username, password):
             cur.execute("INSERT INTO ChatGroups (user_id, name, index) VALUES (%s, 'Active chats', 0)", (user_id, ))
             session["username"] = username
             session["user_id"] = user_id
+            session["csrf_token"] = secrets.token_hex(16)
             return True
 
 def logout():

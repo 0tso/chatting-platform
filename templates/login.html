@@ -2,19 +2,20 @@
 {% block title %}Login{% endblock %}
 {% block body %}
 <h2>Please log in.</h2>
-<form action="" method="POST">
+<form action="" id="login">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
-    <input type="submit" value="Sign in.">
+    <input type="password" id="login_password" name="password">
 </form>
 <h2>If you cannot log in, create a new account.</h2>
-<form action="/register" method="POST">
+<form action="" id="register">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password">
-    <input type="submit" value="Register.">
+    <input type="password" id="register_password" name="password">
 </form>
+
+<script src="{{ url_for('static', filename='login.js') }}"></script>
+
 {% endblock %}
