@@ -65,8 +65,10 @@ def find_user():
 @app.route("/chat/<chat_id>")
 @requires_login
 def open_chat(chat_id):
-    chat.join_chat(chat_id)
-    return render_template("chat.html", username=user.username(), users=chat.get_chat_users(chat_id))
+    if chat.join_chat(chat_id):
+        return render_template("chat.html", username=user.username(), users=chat.get_chat_users(chat_id))
+    else:
+        return {"message": "Unauthorized."}, 401
 
 @app.route("/chat/<chat_id>/hide", methods=["POST"])
 @requires_login

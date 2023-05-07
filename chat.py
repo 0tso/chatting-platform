@@ -74,8 +74,17 @@ def hide_chat(chat_id):
         cur.execute("DELETE FROM ChatGroupChats CGC USING ChatGroups CG WHERE CGC.chat_group_id=CG.id AND CG.user_id=%s AND CGC.chat_id=%s",
             (user.user_id(), chat_id))
 
+def is_chat_member(user_id, chat_id):
+    with db.Connection() as cur:
+        cur.execute("SELECT 1 FROM ChatMembers WHERE chat_id=%s and user_id=%s", (chat_id, user_id))
+        return (True if cur.fetchone() else False)
+
 def join_chat(chat_id):
-    session["chat_id"] = chat_id
+    if is_chat_member(user.user_id(), chat_id):
+        session["chat_id"] = chat_id
+        return True
+    else:
+        return False
 
 def leave_chat(chat_id):
     session["chat_id"] = chat_id
