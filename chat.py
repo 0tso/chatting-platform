@@ -100,8 +100,11 @@ def get_present(chat_id):
         cur.execute("SELECT user_id FROM ChatMembers WHERE chat_id=%s AND present=TRUE;", (chat_id,))
         return [x[0] for x in cur.fetchall()]
 
-def get_messages(chat_id, amount, pivot_message_id=-1):
+def get_messages(chat_id, amount, pivot_message_id=None):
     with db.Connection() as cur:
+        if not pivot_message_id:
+            pivot_message_id = 2147483647
+
         cur.execute("""
             SELECT
                 M.id, TO_CHAR(M.time, 'YYYY-MM-DD HH24:MI:SS'), U.name, M.content
@@ -110,7 +113,7 @@ def get_messages(chat_id, amount, pivot_message_id=-1):
             ON
                 M.user_id=U.id
             WHERE
-                M.chat_id = %s AND M.id > %s
+                M.chat_id = %s AND M.id < %s
             ORDER BY
                 M.id DESC
             LIMIT %s""", (chat_id, pivot_message_id, amount))

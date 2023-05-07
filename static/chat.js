@@ -1,6 +1,9 @@
 const messages = document.getElementById("messages");
 const chatbox = document.getElementById("chatbox");
 
+let remaining = false;
+let oldest_message_id = -1;
+
 function create_message_element(message)
 {
     const id = message[0];
@@ -10,7 +13,7 @@ function create_message_element(message)
 
     const element = document.createElement("p");
     const msg = document.createTextNode(username + " - " + time + ": " + content);
-    msg.id = "msg_" + id;
+    element.setAttribute("id", "msg_" + id);
     element.appendChild(msg);
     return element;
 }
@@ -26,6 +29,8 @@ function append_data(data)
     if(data.old)
     {
         messages.append(frag);
+        remaining = data.remaining;
+        oldest_message_id = data.messages[data.messages.length - 1][0]
     } else
     {
         messages.prepend(frag);
@@ -61,4 +66,15 @@ chatbox.onkeydown = (e) =>
 window.onbeforeunload = () =>
 {
     socket.disconnect(true);
+};
+
+window.onscroll = (e) =>
+{
+    if((window.innerHeight + Math.round(window.scrollY)) >= document.body.scrollHeight)
+    {
+        if(remaining)
+        {
+            socket.emit("load_messages", oldest_message_id);
+        }
+    }
 };
