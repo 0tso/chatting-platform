@@ -17,7 +17,10 @@
 {% for group in chat_groups %}
 <h3> {{ group[1] }} </h3>
     {% for chat in group[2] %}
-    <a class="hide_chat" href="/chat/{{ chat[0] }}/hide">⨉</a> <a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+    <form method="POST" action="/chat/{{ chat[0] }}/hide">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <input type="submit" class="hide_chat" value="⨉"> <a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+    </form>
     {% endfor %}
 {% endfor %}
 

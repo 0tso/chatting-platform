@@ -68,8 +68,12 @@ def open_chat(chat_id):
     chat.join_chat(chat_id)
     return render_template("chat.html", username=user.username(), users=chat.get_chat_users(chat_id))
 
-@app.route("/chat/<chat_id>/hide")
+@app.route("/chat/<chat_id>/hide", methods=["POST"])
 @requires_login
 def hide_chat(chat_id):
+
+    if request.form["csrf_token"] != session["csrf_token"]:
+        return {"message": "Invalid csrf_token"}, 403
+
     chat.hide_chat(chat_id)
     return redirect("/")
