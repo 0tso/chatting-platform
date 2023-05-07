@@ -16,3 +16,8 @@ body
     text-decoration: none;
     color: black;
 }
+
+.error
+{
+    color: red;
+}

@@ -8,6 +8,7 @@
     <label for="password">Password:</label>
     <input type="password" id="login_password" name="password">
 </form>
+<p id="login_error" class="error"></p>
 <h2>If you cannot log in, create a new account.</h2>
 <form action="" id="register">
     <label for="username">Username:</label>
@@ -15,6 +16,7 @@
     <label for="password">Password:</label>
     <input type="password" id="register_password" name="password">
 </form>
+<p id="register_error" class="error"></p>
 
 <script src="{{ url_for('static', filename='login.js') }}"></script>
 

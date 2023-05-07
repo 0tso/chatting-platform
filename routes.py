@@ -30,9 +30,9 @@ def try_login():
     username = request.form["username"]
     password = request.form["password"]
     if user.try_login(username, password):
-        return {"message": "Invalid login credentials."}, 401
+        return redirect("/")
     else:
-        return redirect("/login")
+        return {"message": "Invalid login credentials."}, 401
 
 @app.route("/register", methods=["POST"])
 def try_register():
@@ -41,7 +41,7 @@ def try_register():
     if user.try_register(username, password):
         return redirect("/")
     else:
-        return redirect("/login")
+        return {"message": "User already exists."}, 409
 
 @app.route("/logout")
 def logout():
