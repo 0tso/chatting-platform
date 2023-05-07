@@ -11,19 +11,32 @@ body
 #title a
 {
     text-decoration: none;
-    color: black;
+    color:#6ce0a2;
 }
 
 #title
-{
+{   
+    animation: change 7s;
+    animation-iteration-count: infinite;
     transition: transform 500ms;
     margin-top: 1em;
     margin-bottom: 1em;
     font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+@keyframes change {
+    0%, 100% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(0.95, 0.95) translateX(-1.5%);
+    }
 }
 
 #title:hover
 {
+    animation-play-state: paused;
     transform: scale(0.9, 0.9) translateX(-5%);
 }
 
