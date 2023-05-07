@@ -7,7 +7,7 @@ const register_password = document.getElementById("register_password");
 const login_error = document.getElementById("login_error");
 const register_error = document.getElementById("register_error");
 
-function submit(form, url, error_status, error_text)
+function submit(form, url, error_text)
 {
     error_text.textContent = "";
 
@@ -18,7 +18,7 @@ function submit(form, url, error_status, error_text)
         body: form_data
     }).then(response =>
     {
-        if(response.status == error_status)
+        if(!response.ok)
         {
             return response.json();
         } else if (response.redirected)
@@ -35,7 +35,7 @@ login_password.onkeydown = (e) =>
 {
     if(e.key == "Enter")
     {
-        submit(login_form, "login", 401, login_error);
+        submit(login_form, "login", login_error);
         login_form.reset();
     }
 };
@@ -44,7 +44,7 @@ register_password.onkeydown = (e) =>
 {
     if(e.key == "Enter")
     {
-        submit(register_form, "register", 409, register_error);
+        submit(register_form, "register", register_error);
         register_form.reset();
     }
 };

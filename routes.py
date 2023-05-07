@@ -38,6 +38,10 @@ def try_login():
 def try_register():
     username = request.form["username"]
     password = request.form["password"]
+
+    if (ret := user.is_invalid(username, password)):
+        return ret
+
     if user.try_register(username, password):
         return redirect("/")
     else:

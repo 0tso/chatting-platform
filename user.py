@@ -3,6 +3,8 @@ from flask import session
 import db
 from werkzeug.security import check_password_hash, generate_password_hash
 
+MAX_USERNAME_LENGTH = 20
+
 def logged_in():
     return "username" in session
 
@@ -18,6 +20,12 @@ def try_login(username, password):
                 return True
 
         return False
+
+def is_invalid(username, password):
+    if len(username) > MAX_USERNAME_LENGTH:
+        return {"message": f"Username too long. Maximum length is {MAX_USERNAME_LENGTH}."}, 413
+
+    return False
 
 def try_register(username, password):
     with db.Connection() as cur:
