@@ -10,7 +10,13 @@ def create_chat_with_user(username):
         cur.execute("SELECT chat_id FROM ChatMembers GROUP BY chat_id HAVING COUNT(CASE WHEN user_id NOT IN (SELECT id FROM Users WHERE name IN (%s, %s)) = TRUE THEN 1 END) = 0;",
                     (user.username(), username))
         if (id := cur.fetchone()):
-            return id[0]
+            chat_id = id[0]
+            cur.execute("SELECT 1 FROM ChatGroupChats CGC, ChatGroups CG WHERE CG.id=CGC.chat_group_id AND CG.user_id=%s AND CGC.chat_id=%s",
+                        (user.user_id(), chat_id))
+            if not cur.fetchone():
+                cur.execute("INSERT INTO ChatGroupChats (chat_group_id, chat_id) SELECT id, %s FROM ChatGroups WHERE user_id=%s ORDER BY index ASC LIMIT 1",
+                            (chat_id, user.user_id()))
+            return chat_id
 
         cur.execute("INSERT INTO Chats (name) VALUES (NULL) RETURNING id;")
         new_chat_id = cur.fetchone()[0]
@@ -62,6 +68,11 @@ def get_chats():
             ret[-1][2].append((chat_id, chat_name))
 
         return ret
+
+def hide_chat(chat_id):
+    with db.Connection() as cur:
+        cur.execute("DELETE FROM ChatGroupChats CGC USING ChatGroups CG WHERE CGC.chat_group_id=CG.id AND CG.user_id=%s AND CGC.chat_id=%s",
+            (user.user_id(), chat_id))
 
 def join_chat(chat_id):
     session["chat_id"] = chat_id
