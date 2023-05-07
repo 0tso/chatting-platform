@@ -2,6 +2,7 @@ import db
 import user
 from flask import session
 
+
 def create_chat_with_user(username):
     with db.Connection() as cur:
 
@@ -15,6 +16,22 @@ def create_chat_with_user(username):
         new_chat_id = cur.fetchone()[0]
         cur.execute("INSERT INTO ChatMembers (chat_id, user_id) SELECT %s, id FROM Users WHERE name IN (%s, %s);",
                     (new_chat_id, user.username(), username))
+
+        # ATTENTION: Assumes both indices are 0, thus "ORDER BY index LIMIT 2"
+        cur.execute("""
+            INSERT INTO
+                ChatGroupChats (chat_group_id, chat_id)
+            SELECT
+                CG.id, %s
+            FROM
+                ChatGroups CG, Users U
+            WHERE
+                CG.user_id=U.id and U.name IN (%s, %s)
+            ORDER BY
+                CG.index ASC
+            LIMIT 2""", 
+            (new_chat_id, username, user.username()))
+
         return new_chat_id
 
 def get_chat_users(chat_id):
@@ -26,13 +43,25 @@ def get_chats():
     with db.Connection() as cur:
         cur.execute("""
             SELECT
-                C.id, COALESCE(C.name, U.name)
+                CG.id, CG.name, C.id, COALESCE(C.name, U.name)
             FROM
-                Chats C, ChatMembers CM1, ChatMembers CM2, Users U
+                ChatGroups CG, ChatGroupChats CGC, Chats C, ChatMembers CM1, ChatMembers CM2, Users U
             WHERE
-                C.id=CM1.chat_id AND C.id=CM2.chat_id AND CM1.user_id=%(user_id)s AND CM2.user_id != %(user_id)s AND U.id=CM2.user_id""",
-                {"user_id": user.user_id()})
-        return cur.fetchall()
+                CG.user_id=%(user_id)s AND CG.id=CGC.chat_group_id AND CGC.chat_id=C.id
+            AND 
+                C.id=CM1.chat_id AND C.id=CM2.chat_id AND CM1.user_id=%(user_id)s AND CM2.user_id != %(user_id)s AND U.id=CM2.user_id
+            ORDER BY
+                CG.index ASC""",
+            {"user_id": user.user_id()})
+        chats = cur.fetchall()
+        ret = []
+        for group_id, group_name, chat_id, chat_name in chats:
+            if (len(ret) == 0) or (ret[-1][0] != group_id):
+                ret.append((group_id, group_name, []))
+            
+            ret[-1][2].append((chat_id, chat_name))
+
+        return ret
 
 def join_chat(chat_id):
     session["chat_id"] = chat_id

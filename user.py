@@ -24,8 +24,10 @@ def try_register(username, password):
             return False
         else:
             cur.execute("INSERT INTO Users (name, password) VALUES (%s, %s) RETURNING id", (username, generate_password_hash(password)))
+            user_id = int(cur.fetchone()[0])
+            cur.execute("INSERT INTO ChatGroups (user_id, name, index) VALUES (%s, 'Active chats', 0)", (user_id, ))
             session["username"] = username
-            session["user_id"] = cur.fetchone()[0]
+            session["user_id"] = user_id
             return True
 
 def logout():

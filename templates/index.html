@@ -13,9 +13,11 @@
     <input type="submit" value="Search">
 </form>
 
-<h3>Active chats</h3>
-{% for chat in chats %}
-<a class="hide_chat" href="/chat/{{ chat[0] }}/hide">⨉</a> <a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+{% for group in chat_groups %}
+<h3> {{ group[1] }} </h3>
+    {% for chat in group[2] %}
+    <a class="hide_chat" href="/chat/{{ chat[0] }}/hide">⨉</a> <a href="/chat/{{ chat[0] }}">{{ chat[1] }}</a><br>
+    {% endfor %}
 {% endfor %}
 
 {% endblock %}
