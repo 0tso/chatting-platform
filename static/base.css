@@ -3,6 +3,9 @@ body
     margin: auto;
     margin-top: 2em;
     max-width: 45em;
+    background-image: linear-gradient(to right top, #6ce0a2 10%, white 30%);
+    background-attachment: fixed;
+    font-size: 20px;
 }
 
 #title a
@@ -41,6 +44,8 @@ body
     margin-bottom: 10px;
     margin-top: 10px;
     background-image: linear-gradient(to right, antiquewhite, white);
+    border-radius: .5em;
+    padding: 3px;
 }
 
 .content
