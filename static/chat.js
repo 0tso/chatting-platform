@@ -11,12 +11,20 @@ function create_message_element(message)
     const username = message[2];
     const content = message[3];
 
-    const element = document.createElement("p");
-    const msg = document.createTextNode(username + " - " + time + ": " + content);
-    element.setAttribute("id", "msg_" + id);
-    element.setAttribute("class", "chatmessage");
-    element.appendChild(msg);
-    return element;
+    let div = document.createElement("div");
+    div.setAttribute("id", "msg_" + id);
+    div.setAttribute("class", "chatmessage");
+
+    let meta = document.createElement("span");
+    meta.textContent = username + " - " + time + ": ";
+    meta.setAttribute("class", "message_meta");
+    let main = document.createElement("span");
+    main.textContent = content;
+    main.setAttribute("class", "content");
+
+    div.appendChild(meta);
+    div.appendChild(main);
+    return div;
 }
 
 function append_data(data)
